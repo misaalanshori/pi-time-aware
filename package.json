@@ -1,0 +1,31 @@
+{
+  "name": "pi-time-aware",
+  "version": "1.0.0",
+  "description": "Time-aware agent timestamp and duration injection extension for Pi",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check:types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "pi",
+    "extension",
+    "time-aware",
+    "timestamp",
+    "agent"
+  ],
+  "author": "M Isa",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "^0.87.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
