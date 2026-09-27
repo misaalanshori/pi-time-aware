@@ -16,11 +16,39 @@ export function createTimeAwareExtension(options: TimeAwareOptions = {}) {
     let lastMessageTime = sessionStartTime;
     const toolStartTimes = new Map<string, number>();
 
-    pi.on("session_start", (_event: any) => {
-      if (!options.sessionStartTime) {
+    pi.on("session_start", (_event: any, ctx: any) => {
+      // Recover session start time from session header if available
+      const header = ctx?.sessionManager?.getHeader?.();
+      if (header?.timestamp && !options.sessionStartTime) {
+        const headerTime = new Date(header.timestamp).getTime();
+        if (!isNaN(headerTime)) {
+          sessionStartTime = headerTime;
+        }
+      } else if (!options.sessionStartTime) {
         sessionStartTime = getNow().getTime();
+      }
+
+      // Recover last message time from last entry if available
+      const entries = ctx?.sessionManager?.getEntries?.();
+      if (Array.isArray(entries) && entries.length > 0) {
+        const lastEntry = entries[entries.length - 1];
+        if (lastEntry?.timestamp) {
+          const entryTime = new Date(lastEntry.timestamp).getTime();
+          if (!isNaN(entryTime)) {
+            lastMessageTime = entryTime;
+          }
+        }
+      } else {
         lastMessageTime = sessionStartTime;
       }
+    });
+
+    pi.on("session_shutdown", () => {
+      toolStartTimes.clear();
+    });
+
+    pi.on("session_before_switch", () => {
+      toolStartTimes.clear();
     });
 
     pi.on("input", (event: any) => {

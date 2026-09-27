@@ -84,6 +84,18 @@ describe("formatStandardTimeNotice", () => {
 
     expect(notice).toContain("Time is 2026-09-27T18:20:00.000+07:00");
   });
+
+  it("safely falls back to UTC ISO string when invalid timezone is given", () => {
+    const now = new Date("2026-09-27T11:20:00.000Z");
+    const notice = formatStandardTimeNotice({
+      now,
+      sessionStartTime: now,
+      lastMessageTime: now,
+      timeZone: "Invalid/Timezone_Name_123",
+    });
+
+    expect(notice).toContain("Time is 2026-09-27T11:20:00.000Z");
+  });
 });
 
 describe("formatToolDurationNotice", () => {

@@ -40,3 +40,11 @@
     - `concurrent-tool-calls.regression.test.ts`: Independent duration tracking for concurrent parallel tool calls via `toolCallId`.
   - All gates green: `check:types`, `test` (24 tests passing), `build`.
   - Completed close-out report in `docs/report.md`.
+
+## 2026-09-27 — Sanity Check, Session Recovery & Packaging Hardening
+- Performed thorough architectural audit of `pi-time-aware`:
+  - Session recovery: Extracted original `sessionStartTime` from `ctx.sessionManager.getHeader().timestamp` and `lastMessageTime` from transcript entries on resume, accurately reflecting multi-day gaps rather than resetting to process launch.
+  - Lifecycle cleanup: Added `session_shutdown` and `session_before_switch` listeners to clear active tool timer maps and prevent cross-session leaks.
+  - Timezone resilience: Added invalid timezone error handling falling back to UTC ISO format without crashing.
+  - Packaging: Added `"exports"` and `"files"` fields in `package.json` for standard ESM import resolution.
+  - All gates green: `check:types`, `test` (28 tests passing), `build`.

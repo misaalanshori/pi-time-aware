@@ -119,5 +119,6 @@ export function stripTimeAwareTags(text: string): string {
   if (!text) return "";
   return text
     .replace(/<TimeAware>[\s\S]*?<\/TimeAware>/gi, "")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
