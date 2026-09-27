@@ -31,3 +31,12 @@
   - Verified `stripTimeAwareTags` strips tags for client display.
   - Tests verified: 19 passing tests.
   - Gates green: `check:types`, `test`, `build`.
+
+## 2026-09-27 — Phase T4 & Cycle Complete
+- Implemented Phase T4:
+  - Permanent regression test suite in `tests/regressions/`:
+    - `clock-skew-negative-deltas.regression.test.ts`: Clamping negative intervals to `"just now"` on backward clock adjustments.
+    - `non-text-tool-result.regression.test.ts`: Appending duration notices safely when tools return empty or non-text (image-only) content blocks.
+    - `concurrent-tool-calls.regression.test.ts`: Independent duration tracking for concurrent parallel tool calls via `toolCallId`.
+  - All gates green: `check:types`, `test` (24 tests passing), `build`.
+  - Completed close-out report in `docs/report.md`.

@@ -40,7 +40,7 @@
 - [x] Phase T3 test suite passing
 
 ### Phase T4: Hardening & Regressions
-- [ ] Edge cases: negative delta clamping (clock skew), non-text tool results, multiple tool calls, empty inputs
-- [ ] Regression test suite in `tests/regressions/`
-- [ ] All gates green (`check:types`, `test`, `build`)
-- [ ] Cycle report written (`docs/report.md`)
+- [x] Edge cases: negative delta clamping (clock skew), non-text tool results, multiple tool calls, empty inputs
+- [x] Regression test suite in `tests/regressions/`
+- [x] All gates green (`check:types`, `test`, `build`)
+- [x] Cycle report written (`docs/report.md`)
