@@ -69,6 +69,21 @@ describe("formatStandardTimeNotice", () => {
       "<TimeAware>Time is 2026-09-27T11:20:00.000Z (2 hours 23 minutes 6 seconds since session started, 14 minutes 2 seconds since previous message)</TimeAware>"
     );
   });
+
+  it("formats ISO 8601 with timezone offset when timeZone is specified", () => {
+    const now = new Date("2026-09-27T11:20:00.000Z");
+    const sessionStartTime = new Date(now.getTime() - 60_000);
+    const lastMessageTime = new Date(now.getTime() - 30_000);
+
+    const notice = formatStandardTimeNotice({
+      now,
+      sessionStartTime,
+      lastMessageTime,
+      timeZone: "Asia/Jakarta",
+    });
+
+    expect(notice).toContain("Time is 2026-09-27T18:20:00.000+07:00");
+  });
 });
 
 describe("formatToolDurationNotice", () => {

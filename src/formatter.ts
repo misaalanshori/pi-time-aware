@@ -51,10 +51,41 @@ export interface StandardTimeNoticeParams {
   now: Date | string | number;
   sessionStartTime: Date | string | number;
   lastMessageTime: Date | string | number;
+  timeZone?: string;
 }
 
 export function toDate(input: Date | string | number): Date {
   return input instanceof Date ? input : new Date(input);
+}
+
+export function formatIsoWithTz(date: Date, timeZone?: string): string {
+  if (!timeZone || timeZone.toUpperCase() === "UTC") {
+    return date.toISOString();
+  }
+  try {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      fractionalSecondDigits: 3,
+      hour12: false,
+    }).formatToParts(date);
+    const m = Object.fromEntries(parts.map((p) => [p.type, p.value]));
+    const tzPart = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      timeZoneName: "longOffset",
+    })
+      .formatToParts(date)
+      .find((p) => p.type === "timeZoneName")?.value;
+    const offset = tzPart ? tzPart.replace("GMT", "") : "Z";
+    return `${m.year}-${m.month}-${m.day}T${m.hour}:${m.minute}:${m.second}.${m.fractionalSecond}${offset || "Z"}`;
+  } catch {
+    return date.toISOString();
+  }
 }
 
 export function formatStandardTimeNotice(params: StandardTimeNoticeParams): string {
@@ -65,20 +96,23 @@ export function formatStandardTimeNotice(params: StandardTimeNoticeParams): stri
   const nowMs = nowDate.getTime();
   const timeSinceStart = formatTimeDelta(Math.max(0, nowMs - startDate.getTime()));
   const timeSinceLast = formatTimeDelta(Math.max(0, nowMs - lastDate.getTime()));
+  const isoStr = formatIsoWithTz(nowDate, params.timeZone);
 
-  return `<TimeAware>Time is ${nowDate.toISOString()} (${timeSinceStart} since session started, ${timeSinceLast} since previous message)</TimeAware>`;
+  return `<TimeAware>Time is ${isoStr} (${timeSinceStart} since session started, ${timeSinceLast} since previous message)</TimeAware>`;
 }
 
 export interface ToolDurationNoticeParams {
   durationMs: number;
   finishedAt: Date | string | number;
+  timeZone?: string;
 }
 
 export function formatToolDurationNotice(params: ToolDurationNoticeParams): string {
   const finishedDate = toDate(params.finishedAt);
   const durationStr = formatDuration(params.durationMs);
+  const isoStr = formatIsoWithTz(finishedDate, params.timeZone);
 
-  return `<TimeAware>Tool took ${durationStr} to run, finished at ${finishedDate.toISOString()}</TimeAware>`;
+  return `<TimeAware>Tool took ${durationStr} to run, finished at ${isoStr}</TimeAware>`;
 }
 
 export function stripTimeAwareTags(text: string): string {

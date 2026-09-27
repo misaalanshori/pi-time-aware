@@ -4,11 +4,13 @@ import { formatStandardTimeNotice, formatToolDurationNotice } from "./formatter.
 export interface TimeAwareOptions {
   nowFn?: () => Date;
   sessionStartTime?: number;
+  timeZone?: string;
 }
 
 export function createTimeAwareExtension(options: TimeAwareOptions = {}) {
   return (pi: ExtensionAPI) => {
     const getNow = options.nowFn ? () => options.nowFn!() : () => new Date();
+    const timeZone = options.timeZone || process.env.TZ;
 
     let sessionStartTime = options.sessionStartTime ?? getNow().getTime();
     let lastMessageTime = sessionStartTime;
@@ -27,6 +29,7 @@ export function createTimeAwareExtension(options: TimeAwareOptions = {}) {
         now,
         sessionStartTime,
         lastMessageTime,
+        timeZone,
       });
 
       lastMessageTime = now.getTime();
@@ -55,6 +58,7 @@ export function createTimeAwareExtension(options: TimeAwareOptions = {}) {
       const notice = formatToolDurationNotice({
         durationMs,
         finishedAt,
+        timeZone,
       });
 
       const currentContent = Array.isArray(event.content) ? [...event.content] : [];
@@ -92,6 +96,7 @@ export function createTimeAwareExtension(options: TimeAwareOptions = {}) {
           now,
           sessionStartTime,
           lastMessageTime,
+          timeZone,
         });
 
         lastMessageTime = now.getTime();
