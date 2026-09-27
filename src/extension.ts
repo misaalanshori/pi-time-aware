@@ -51,6 +51,10 @@ export function createTimeAwareExtension(options: TimeAwareOptions = {}) {
       toolStartTimes.clear();
     });
 
+    pi.on("agent_end", () => {
+      toolStartTimes.clear();
+    });
+
     pi.on("input", (event: any) => {
       const now = getNow();
       const notice = formatStandardTimeNotice({

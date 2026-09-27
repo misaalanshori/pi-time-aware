@@ -42,8 +42,9 @@
 ### Phase T4: Hardening & Regressions
 - [x] Edge cases: negative delta clamping (clock skew), non-text tool results, multiple tool calls, empty inputs
 - [x] Session history recovery: resume sessionStartTime from SessionManager header and lastMessageTime from entries
-- [x] Lifecycle hygiene: session_shutdown and session_before_switch state clearing
-- [x] Safe fallback for invalid timezone identifiers
+- [x] Lifecycle hygiene: session_shutdown, session_before_switch, and agent_end state clearing
+- [x] Safe fallback for invalid timezone identifiers, Unicode dashes, and NaNs
+- [x] Full Pi extension loader compliance with standard default export factory
 - [x] Regression test suite in `tests/regressions/`
 - [x] All gates green (`check:types`, `test`, `build`)
 - [x] Cycle report written (`docs/report.md`)

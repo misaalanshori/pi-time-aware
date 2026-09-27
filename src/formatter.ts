@@ -1,5 +1,5 @@
 export function formatTimeDelta(ms: number): string {
-  if (ms < 1000) {
+  if (isNaN(ms) || ms < 1000) {
     return "just now";
   }
 
@@ -28,7 +28,7 @@ export function formatTimeDelta(ms: number): string {
 }
 
 export function formatDuration(ms: number): string {
-  const safeMs = Math.max(0, ms);
+  const safeMs = isNaN(ms) ? 0 : Math.max(0, ms);
 
   if (safeMs < 1000) {
     return `${safeMs} ${safeMs === 1 ? "millisecond" : "milliseconds"}`;
@@ -55,7 +55,8 @@ export interface StandardTimeNoticeParams {
 }
 
 export function toDate(input: Date | string | number): Date {
-  return input instanceof Date ? input : new Date(input);
+  const d = input instanceof Date ? input : new Date(input);
+  return isNaN(d.getTime()) ? new Date() : d;
 }
 
 export function formatIsoWithTz(date: Date, timeZone?: string): string {
@@ -72,7 +73,7 @@ export function formatIsoWithTz(date: Date, timeZone?: string): string {
       minute: "2-digit",
       second: "2-digit",
       fractionalSecondDigits: 3,
-      hour12: false,
+      hourCycle: "h23",
     }).formatToParts(date);
     const m = Object.fromEntries(parts.map((p) => [p.type, p.value]));
     const tzPart = new Intl.DateTimeFormat("en-US", {
@@ -81,8 +82,10 @@ export function formatIsoWithTz(date: Date, timeZone?: string): string {
     })
       .formatToParts(date)
       .find((p) => p.type === "timeZoneName")?.value;
-    const offset = tzPart ? tzPart.replace("GMT", "") : "Z";
-    return `${m.year}-${m.month}-${m.day}T${m.hour}:${m.minute}:${m.second}.${m.fractionalSecond}${offset || "Z"}`;
+    const cleanOffset = tzPart
+      ? tzPart.replace(/^GMT/i, "").trim().replace(/\u2212/g, "-")
+      : "Z";
+    return `${m.year}-${m.month}-${m.day}T${m.hour}:${m.minute}:${m.second}.${m.fractionalSecond}${cleanOffset || "Z"}`;
   } catch {
     return date.toISOString();
   }

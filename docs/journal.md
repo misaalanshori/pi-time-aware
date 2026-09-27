@@ -47,4 +47,7 @@
   - Lifecycle cleanup: Added `session_shutdown` and `session_before_switch` listeners to clear active tool timer maps and prevent cross-session leaks.
   - Timezone resilience: Added invalid timezone error handling falling back to UTC ISO format without crashing.
   - Packaging: Added `"exports"` and `"files"` fields in `package.json` for standard ESM import resolution.
-  - All gates green: `check:types`, `test` (28 tests passing), `build`.
+  - Pi Extension Loader Default Export: Exported `default` from `src/index.ts` so `pi --extension pi-time-aware` loads the factory function properly instead of undefined.
+  - Lifecycle hardening: Added `agent_end` listener to purge abandoned tool timers after each turn.
+  - Defensive math: Added NaN/invalid-date protections in `toDate`, `formatTimeDelta`, `formatDuration`, and standard ISO hour cycle `h23`.
+  - All gates green: `check:types`, `test` (31 tests passing), `build`.
