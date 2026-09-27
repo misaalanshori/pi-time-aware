@@ -27,11 +27,11 @@
 - [x] Phase T1 test suite passing
 
 ### Phase T2: Pi Extension Implementation
-- [ ] `session_start` hook: session start timestamp initialization
-- [ ] `input` hook: deltas calculation, appending time notice to user prompt
-- [ ] `tool_call` & `tool_result` hooks: measuring execution duration and appending duration notice to tool result
-- [ ] `message_end` hook: appending time notice to assistant messages
-- [ ] Phase T2 test suite passing
+- [x] `session_start` hook: session start timestamp initialization
+- [x] `input` hook: deltas calculation, appending time notice to user prompt
+- [x] `tool_call` & `tool_result` hooks: measuring execution duration and appending duration notice to tool result
+- [x] `message_end` hook: appending time notice to assistant messages
+- [x] Phase T2 test suite passing
 
 ### Phase T3: Integration & Transcript Verification
 - [ ] End-to-end integration test with Pi AgentSession (mock or in-memory)
