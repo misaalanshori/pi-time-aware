@@ -34,10 +34,10 @@
 - [x] Phase T2 test suite passing
 
 ### Phase T3: Integration & Transcript Verification
-- [ ] End-to-end integration test with Pi AgentSession (mock or in-memory)
-- [ ] Verifying `<TimeAware>` appears in transcripts across user turns, tool results, and assistant turns
-- [ ] Verifying `stripTimeAwareTags` leaves user-facing replies clean
-- [ ] Phase T3 test suite passing
+- [x] End-to-end integration test with Pi AgentSession (mock or in-memory)
+- [x] Verifying `<TimeAware>` appears in transcripts across user turns, tool results, and assistant turns
+- [x] Verifying `stripTimeAwareTags` leaves user-facing replies clean
+- [x] Phase T3 test suite passing
 
 ### Phase T4: Hardening & Regressions
 - [ ] Edge cases: negative delta clamping (clock skew), non-text tool results, multiple tool calls, empty inputs

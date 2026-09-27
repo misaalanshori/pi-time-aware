@@ -23,3 +23,11 @@
   - `src/index.ts`: module entrypoint exporting formatters, sanitizers, and extension factories.
   - Tests verified: 18 passing tests covering all extension event hooks.
   - Gates green: `check:types`, `test`, `build`.
+
+## 2026-09-27 — Phase T3 Complete
+- Implemented Phase T3:
+  - `tests/time-aware-integration.test.ts`: End-to-end integration test verifying complete multi-turn lifecycle.
+  - Verified user prompts, tool results, and assistant messages receive `<TimeAware>` tags in transcript context.
+  - Verified `stripTimeAwareTags` strips tags for client display.
+  - Tests verified: 19 passing tests.
+  - Gates green: `check:types`, `test`, `build`.
